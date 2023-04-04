@@ -1,0 +1,11 @@
+runtime: python37
+entrypoint: gunicorn -b :$PORT frontend:app
+instance_class: F1
+service: default
+
+handlers:
+  - url: /
+    static_files: index.html
+    upload: index.html
+  - url: /.*
+    script: auto

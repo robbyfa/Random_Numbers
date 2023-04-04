@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+</head>
+<body>
+    <h1>Random Number Generator</h1>
+    <button onclick="generateNumbers()">Generate Random Numbers</button>
+    <button onclick="getResults()">Get Results</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function generateNumbers() {
+            const instanceNames = ["instance-1", "instance-2", "instance-3", "instance-4", "instance-5", "instance-6", "instance-7", "instance-8", "instance-9", "instance-10"];
+            const url = "/api/generate";
+            const results = document.getElementById("output");
+
+            results.textContent = "Generating numbers...";
+
+            for (const instanceName of instanceNames) {
+                const formData = new FormData();
+                formData.append("instance_name", instanceName);
+                formData.append("num_numbers", 1000);
+
+                await fetch(url, { method: "POST", body: formData });
+            }
+
+            results.textContent = "Numbers generated!";
+        }
+
+        async function getResults() {
+            const url = "/api/results";
+            const results = document.getElementById("output");
+
+            results.textContent = "Fetching results...";
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            results.textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
